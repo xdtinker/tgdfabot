@@ -19,6 +19,23 @@ from selenium.webdriver.chrome.options import Options
 
 bot = telebot.TeleBot(keys.API_KEY)
 
+@bot.message_handler(commands=['hi'])
+def response(message):
+    bot.send_message(message.chat.id, 'Hi Dev')
+
+@bot.message_handler(commands=['sudo#start'])
+def response(message):
+    bot.send_message(message.chat.id, 'Ok. It might take a while to initialize please be patient.')
+    main()
+
+@bot.message_handler(commands=['sudo#stop'])
+def response(message):
+    bot.send_message(message.chat.id, 'Process terminated')
+    driver.quit()
+
+bot.polling()
+
+
 def sendTelegram(botMsg):
     bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
     bot_ChatID = "879252455"
@@ -34,7 +51,7 @@ def tgGetLogs(botLogs):
     response = requests.get(bot_text)
 
 def main():
-
+    bot.send_message(message.chat.id, 'Process has started')
     site = "https://www.passport.gov.ph/appointment"
     path = "C:/Users/Aziz/Desktop/Automation/chromedriver.exe"
 
@@ -52,18 +69,13 @@ def main():
 
     time.sleep(3)
     try:
-        driver.find_element(By.CLASS_NAME, "checkbox").click()                                                  #checkbox
-        print('step 1')                                                  
+        driver.find_element(By.CLASS_NAME, "checkbox").click()                                                  #checkbox                                                 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
-        print('step 2')
         time.sleep(3)                 
-        driver.find_element(By.ID, "SiteID").click()                                                            #site selection
-        print('step 3')                                                            
+        driver.find_element(By.ID, "SiteID").click()                                                            #site selection                                                         
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
-        print('step 4')
         time.sleep(3)                                         
-        driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label').click()                                   #agree tos
-        print('step 5')                                  
+        driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label').click()                                   #agree tos                                
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "submitcommand"))).click()     #sumbit
         print('Process done')  
    
@@ -107,19 +119,3 @@ def main():
                     print("Message sent.")      
     finally:
         driver.quit()
-
-@bot.message_handler(commands=['hi'])
-def response(message):
-    bot.send_message(message.chat.id, 'Hi Dev')
-
-@bot.message_handler(commands=['sudo#start'])
-def response(message):
-    bot.send_message(message.chat.id, 'Ok. It might take a while to initialize please be patient.')
-    main()
-
-@bot.message_handler(commands=['sudo#stop'])
-def response(message):
-    bot.send_message(message.chat.id, 'Process terminated')
-    driver.quit()
-
-bot.polling()
