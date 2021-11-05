@@ -17,7 +17,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 
 bot = telebot.TeleBot(keys.API_KEY)
-driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+
 site = "https://www.passport.gov.ph/appointment"
 path = "C:/Users/Aziz/Desktop/Automation/chromedriver.exe"
 
@@ -44,7 +44,9 @@ def main():
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument(f'user-agent={user_agent}')  
+    chrome_options.add_argument(f'user-agent={user_agent}')
+    
+    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     driver.get(site)
 
     time.sleep(3)
