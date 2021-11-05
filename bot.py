@@ -16,7 +16,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 
-
+bot = telebot.TeleBot(keys.API_KEY)
 driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
 site = "https://www.passport.gov.ph/appointment"
 path = "C:/Users/Aziz/Desktop/Automation/chromedriver.exe"
@@ -103,7 +103,6 @@ def main():
     finally:
         driver.quit()
 
-bot = telebot.TeleBot(keys.API_KEY)
 
 @bot.message_handler(commands=['start'])
 def response(message):
