@@ -51,13 +51,18 @@ def main():
 
     time.sleep(3)
     try:
-        driver.find_element(By.CLASS_NAME, "checkbox").click()                                                  #checkbox                                                 
+        driver.find_element(By.CLASS_NAME, "checkbox").click()                                                  #checkbox
+        print('step 1')                                             
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
+        print('step 2')
         time.sleep(3)                 
-        driver.find_element(By.ID, "SiteID").click()                                                            #site selection                                                         
+        driver.find_element(By.ID, "SiteID").click()                                                            #site selection
+        print('step 3')                                                            
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
+        print('step 4')
         time.sleep(3)                                         
-        driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label').click()                                   #agree tos                                
+        driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label').click()                                 #agree tos
+        print('step 5')                                  
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "submitcommand"))).click()     #sumbit
         print('Process done')  
    
