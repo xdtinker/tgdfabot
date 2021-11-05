@@ -24,21 +24,6 @@ bot = telebot.TeleBot(keys.API_KEY)
 
 
 def main():
-    def sendTelegram(botMsg):
-        bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
-        bot_ChatID = "879252455"
-        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botMsg}'
-
-        print("Sending message")
-
-        response = requests.get(bot_text)
-    
-    def tgGetLogs(botLogs):
-        bot_token = "bot2054859695:AAGVSXp1MRtrAMP0L5g2AML-tBVvwRfxi4o"
-        bot_ChatID = "879252455"
-        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botLogs}'
-
-        response = requests.get(bot_text)
 
     print("Starting automation.. please wait.")
 
@@ -62,24 +47,39 @@ def main():
 
 
     #send msg to tg
+    def sendTelegram(botMsg):
+        bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
+        bot_ChatID = "879252455"
+        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botMsg}'
+
+        print("Sending message")
+
+        response = requests.get(bot_text)
+    
+    def tgGetLogs(botLogs):
+        bot_token = "bot2054859695:AAGVSXp1MRtrAMP0L5g2AML-tBVvwRfxi4o"
+        bot_ChatID = "879252455"
+        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botLogs}'
+
+        response = requests.get(bot_text)
 
 
     time.sleep(3)
     try:
         driver.find_element(By.CLASS_NAME, "checkbox").click()                                                  #checkbox
-        print('step 1')                                                  
+        tgGetLogs(f"Step 1")                                                 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
-        print('step 2')
+        tgGetLogs(f"Step 2")
         time.sleep(3)                 
         driver.find_element(By.ID, "SiteID").click()                                                            #site selection
-        print('step 3')                                                            
+        tgGetLogs(f"Step 3")                                                          
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
-        print('step 4')
+        tgGetLogs(f"Step 4")
         time.sleep(3)                                         
         driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label').click()                                   #agree tos
-        print('step 5')                                  
+        tgGetLogs(f"Step 5")                                  
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "submitcommand"))).click()     #sumbit
-        print('Process done')  
+        tgGetLogs(f"Process done")       
 
     
         loop = True
