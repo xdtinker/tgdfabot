@@ -17,24 +17,19 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 
 
-bot = telebot.TeleBot(keys.API_KEY)
+driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+site = "https://www.passport.gov.ph/appointment"
+path = "C:/Users/Aziz/Desktop/Automation/chromedriver.exe"
 
-@bot.message_handler(commands=['hi'])
-def response(message):
-    bot.send_message(message.chat.id, 'Hi Dev')
+def chrome_Opt():
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
 
-@bot.message_handler(commands=['sudo#start'])
-def response(message):
-    bot.send_message(message.chat.id, 'Ok. It might take a while to initialize please be patient.')
-    main()
-
-@bot.message_handler(commands=['sudo#stop'])
-def response(message):
-    bot.send_message(message.chat.id, 'Process terminated')
-    driver.quit()
-
-bot.polling()
-
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument(f'user-agent={user_agent}')
 
 def sendTelegram(botMsg):
     bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
@@ -52,19 +47,7 @@ def tgGetLogs(botLogs):
 
 def main():
     bot.send_message(message.chat.id, 'Process has started')
-    site = "https://www.passport.gov.ph/appointment"
-    path = "C:/Users/Aziz/Desktop/Automation/chromedriver.exe"
-
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
-
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument(f'user-agent={user_agent}')
-
-    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+    cOpt()  
     driver.get(site)
 
     time.sleep(3)
@@ -119,3 +102,25 @@ def main():
                     print("Message sent.")      
     finally:
         driver.quit()
+
+bot = telebot.TeleBot(keys.API_KEY)
+
+@bot.message_handler(commands=['start'])
+def response(message):
+    bot.send_message(message.chat.id, 'Greetings, Human.')
+
+@bot.message_handler(commands=['hi'])
+def response(message):
+    bot.send_message(message.chat.id, 'Hi Dev')
+
+@bot.message_handler(commands=['sudo#start'])
+def response(message):
+    bot.send_message(message.chat.id, 'Ok. It might take a while to initialize please be patient.')
+    main()
+
+@bot.message_handler(commands=['sudo#stop'])
+def response(message):
+    bot.send_message(message.chat.id, 'Process terminated')
+    driver.quit()
+
+bot.polling()
