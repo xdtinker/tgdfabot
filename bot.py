@@ -19,23 +19,27 @@ from selenium.webdriver.chrome.options import Options
 
 bot = telebot.TeleBot(keys.API_KEY)
 
-def sendTelegram(botMsg):
-    bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
-    bot_ChatID = "879252455"
-    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botMsg}'
 
-    print("Sending message")
-
-    response = requests.get(bot_text)
 #logs to messenger
-def tgGetLogs(botLogs):
-    bot_token = "bot2054859695:AAGVSXp1MRtrAMP0L5g2AML-tBVvwRfxi4o"
-    bot_ChatID = "879252455"
-    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botLogs}'
 
-    response = requests.get(bot_text)
 
 def main():
+    def sendTelegram(botMsg):
+        bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
+        bot_ChatID = "879252455"
+        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botMsg}'
+
+        print("Sending message")
+
+        response = requests.get(bot_text)
+    
+    def tgGetLogs(botLogs):
+        bot_token = "bot2054859695:AAGVSXp1MRtrAMP0L5g2AML-tBVvwRfxi4o"
+        bot_ChatID = "879252455"
+        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botLogs}'
+
+        response = requests.get(bot_text)
+
     print("Starting automation.. please wait.")
 
     print("\nChecking Availability...")
