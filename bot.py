@@ -16,6 +16,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 bot = telebot.TeleBot(keys.API_KEY)
 chrome_options = webdriver.ChromeOptions()
@@ -105,7 +106,7 @@ def main():
                     #sendMsg()
                     sendTelegram(f' **New Appointment**\n \nSITE : {sitename}\n \n{dateToday}\n')  
                     print("Message sent.")      
-    except (NoSuchElementException,TimeoutException,urllib3.exceptions.ConnectionError) as e:
+    except (NoSuchElementException,TimeoutException) as e:
         tgGetLogs(f"\nError occured during process.\n \nError Message: {e.args}\n")
         driver.quit()
 
