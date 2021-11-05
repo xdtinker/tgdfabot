@@ -15,6 +15,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
 
 bot = telebot.TeleBot(keys.API_KEY)
 chrome_options = webdriver.ChromeOptions()
@@ -104,9 +105,9 @@ def main():
                     #sendMsg()
                     sendTelegram(f' **New Appointment**\n \nSITE : {sitename}\n \n{dateToday}\n')  
                     print("Message sent.")      
-    finally:
+    except NoSuchElementException as e:
+        tgGetLogs(f"\nError occured during process.\n \nError Message: {e.args}\n")
         driver.quit()
-
 
 @bot.message_handler(commands=['start'])
 def response(message):
@@ -120,12 +121,12 @@ def response(message):
 def response(message):
     bot.send_message(message.chat.id, "There's no help")
 
-@bot.message_handler(commands=['sudo#start'])
+@bot.message_handler(commands=['sudostart'])
 def response(message):
     bot.send_message(message.chat.id, 'Ok. It might take a while to initialize please be patient.')
     main()
 
-@bot.message_handler(commands=['sudo#stop'])
+@bot.message_handler(commands=['sudostop'])
 def response(message):
     bot.send_message(message.chat.id, 'Process terminated')
     driver.quit()
