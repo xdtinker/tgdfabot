@@ -21,16 +21,6 @@ driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"),
 site = "https://www.passport.gov.ph/appointment"
 path = "C:/Users/Aziz/Desktop/Automation/chromedriver.exe"
 
-def chrome_Opt():
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
-
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument(f'user-agent={user_agent}')
-
 def sendTelegram(botMsg):
     bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
     bot_ChatID = "879252455"
@@ -47,7 +37,14 @@ def tgGetLogs(botLogs):
 
 def main():
     bot.send_message(message.chat.id, 'Process has started')
-    cOpt()  
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument(f'user-agent={user_agent}')  
     driver.get(site)
 
     time.sleep(3)
