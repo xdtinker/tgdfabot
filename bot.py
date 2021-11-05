@@ -19,19 +19,25 @@ from selenium.webdriver.chrome.options import Options
 
 bot = telebot.TeleBot(keys.API_KEY)
 
+def sendTelegram(botMsg):
+    bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
+    bot_ChatID = "879252455"
+    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botMsg}'
 
-#logs to messenger
+    response = requests.get(bot_text)
+    
+def tgGetLogs(botLogs):
+    bot_token = "bot2054859695:AAGVSXp1MRtrAMP0L5g2AML-tBVvwRfxi4o"
+    bot_ChatID = "879252455"
+    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botLogs}'
 
+    response = requests.get(bot_text)
 
 def main():
 
-    print("Starting automation.. please wait.")
-
-    print("\nChecking Availability...")
     site = "https://www.passport.gov.ph/appointment"
     path = "C:/Users/Aziz/Desktop/Automation/chromedriver.exe"
 
-    #chrome_options = Options()
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
 
     chrome_options = webdriver.ChromeOptions()
@@ -40,53 +46,31 @@ def main():
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument(f'user-agent={user_agent}')
-    ###############################################
 
     driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     driver.get(site)
 
-
-    #send msg to tg
-    def sendTelegram(botMsg):
-        bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
-        bot_ChatID = "879252455"
-        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botMsg}'
-
-        print("Sending message")
-
-        response = requests.get(bot_text)
-    
-    def tgGetLogs(botLogs):
-        bot_token = "bot2054859695:AAGVSXp1MRtrAMP0L5g2AML-tBVvwRfxi4o"
-        bot_ChatID = "879252455"
-        bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botLogs}'
-
-        response = requests.get(bot_text)
-
-
     time.sleep(3)
     try:
         driver.find_element(By.CLASS_NAME, "checkbox").click()                                                  #checkbox
-        tgGetLogs(f"Step 1")                                                 
+        print('step 1')                                                  
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
-        tgGetLogs(f"Step 2")
+        print('step 2')
         time.sleep(3)                 
         driver.find_element(By.ID, "SiteID").click()                                                            #site selection
-        tgGetLogs(f"Step 3")                                                          
+        print('step 3')                                                            
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
-        tgGetLogs(f"Step 4")
+        print('step 4')
         time.sleep(3)                                         
         driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label').click()                                   #agree tos
-        tgGetLogs(f"Step 5")                                  
+        print('step 5')                                  
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "submitcommand"))).click()     #sumbit
-        tgGetLogs(f"Process done")       
-
-    
+        print('Process done')  
+   
         loop = True
         sites = [1,2,3,4,5,7,8,9]
-        aptStatus = ""
         while loop:
-            for option in sites: 
+            for option in sites:
                 time.sleep(5)
                 timeSlots = driver.find_element(By.ID, "schedule-container").text
                 Select(driver.find_element(By.ID, "SiteID")).select_by_index(option)
@@ -112,7 +96,6 @@ def main():
                 else:
                     sitename = "SM Seaside Cebu - Temporary Off-site Passport Service"
 
-
                 if("Timeslots will be available soon." in timeSlots):
                     tgGetLogs(f"NO APPOINTMENT AVAILABLE\n  \n{sitename}\n \n{dateToday}\n")
                     print(f"\n*************************** NO APPOINTMENT AVAILABLE IN {sitename} ***************************\n")
@@ -129,13 +112,14 @@ def main():
 def response(message):
     bot.send_message(message.chat.id, 'Hi Dev')
 
-@bot.message_handler(commands=['startchecking'])
+@bot.message_handler(commands=['sudo#start'])
 def response(message):
-    bot.send_message(message.chat.id, 'Sure, just a sec')
+    bot.send_message(message.chat.id, 'Ok. It might take a while to initialize please be patient.')
     main()
 
-@bot.message_handler(commands=['stopchecking'])
+@bot.message_handler(commands=['sudo#stop'])
 def response(message):
-    bot.send_message(message.chat.id, 'Terminating process')
+    bot.send_message(message.chat.id, 'Process terminated')
     driver.quit()
+
 bot.polling()
