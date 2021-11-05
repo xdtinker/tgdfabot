@@ -36,7 +36,7 @@ def tgGetLogs(botLogs):
     response = requests.get(bot_text)
 
 def main():
-    bot.send_message(message.chat.id, 'Process has started')
+    tgGetLogs("Process has started")
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
 
     chrome_options = webdriver.ChromeOptions()
