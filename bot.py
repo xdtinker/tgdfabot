@@ -105,7 +105,7 @@ def main():
                     #sendMsg()
                     sendTelegram(f' **New Appointment**\n \nSITE : {sitename}\n \n{dateToday}\n')  
                     print("Message sent.")      
-    except (NoSuchElementException,TimeoutException,urllib.error.HTTPError) as e:
+    except (NoSuchElementException,TimeoutException,urllib3.exceptions.ConnectionError) as e:
         tgGetLogs(f"\nError occured during process.\n \nError Message: {e.args}\n")
         driver.quit()
 
