@@ -1,4 +1,3 @@
-
 import time
 import os
 import requests
@@ -41,12 +40,12 @@ def webdrv():
     site = "https://www.passport.gov.ph/appointment"
     #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
+    #user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36'
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.headless = True
-    chrome_options.add_argument(f'user-agent={user_agent}')
+    chrome_options.add_argument('--headless')
+    #chrome_options.add_argument(f'user-agent={user_agent}')
     driver = webdriver.Chrome(executable_path= os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
     driver.get(site)
@@ -64,7 +63,8 @@ def closeWebdrv():
 def checkprocess():
     webdrv()
     try:      
-        driver.find_element(By.CLASS_NAME, "checkbox").click()                              #checkbox
+        #driver.find_element(By.CLASS_NAME, "checkbox").click()
+        driver.find_element_by_class_name('checkbox').click()                                              #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
