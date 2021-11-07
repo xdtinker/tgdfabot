@@ -40,7 +40,7 @@ def webdrv():
     site = "https://www.passport.gov.ph/appointment"
     #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
-    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
@@ -50,7 +50,7 @@ def webdrv():
     #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
     driver.get(site)
 
-
+webdrv()
 def closeWebdrv():
     try:
         driver.quit()
@@ -60,7 +60,7 @@ def closeWebdrv():
         tgGetLogs(f"Service is not running.")
 
 def checkprocess():
-    webdrv()
+    
     try:      
         #driver.find_element(By.CLASS_NAME, "checkbox").click()
         driver.find_element_by_class_name('checkbox').click()                                              #checkbox
