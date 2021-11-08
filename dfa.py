@@ -66,8 +66,8 @@ def checkprocess():
     webdrv()
     try:      
         #driver.find_element(By.CLASS_NAME, "checkbox").click()
-        time.sleep(3)
-        driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
+        WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CLASS_NAME, 'checkbox'))).click()
+        #driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
