@@ -1,6 +1,7 @@
 import time
 import os
 import requests
+import constant as keys
 from selenium import webdriver
 from datetime import datetime
 from selenium.webdriver.common.by import By
@@ -21,8 +22,7 @@ from urllib3.exceptions import ProtocolError
 #send msg to tg
 def sendTelegram(botMsg):
     bot_token = "bot2023896048:AAE_MnkOljwcRXNXlC6ouEwrTpfYZVeRc1c"
-    bot_ChatID = "879252455"
-    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botMsg}'
+    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={keys.BOT_CHANNEL_APT}&text={botMsg}'
 
     print("Sending message")
 
@@ -30,17 +30,16 @@ def sendTelegram(botMsg):
 #logs to messenger
 def tgGetLogs(botLogs):
     bot_token = "bot2054859695:AAGVSXp1MRtrAMP0L5g2AML-tBVvwRfxi4o"
-    bot_ChatID = "879252455"
-    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={bot_ChatID}&text={botLogs}'
+    bot_text = f'https://api.telegram.org/{bot_token}/sendMessage?chat_id={keys.BOT_CHANNEL_LOG}&text={botLogs}'
 
     response = requests.get(bot_text)
 
 def webdrv():
     global driver
     site = "https://www.passport.gov.ph/appointment"
-    path = "./chromedriver.exe"
+    #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
@@ -63,18 +62,18 @@ def closeWebdrv():
 
 
 def checkprocess():
-    tgGetLogs('XXXXXXXXXXXXX')
+    tgGetLogs('Checking in progress..')
     webdrv()
     try:      
         #driver.find_element(By.CLASS_NAME, "checkbox").click()
-        driver.implicitly_wait(5)
+        time.sleep(3)
         driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
-        driver.implicitly_wait(1)  
+        driver.implicitly_wait(3)  
         driver.find_element(By.ID, "SiteID").click()                                                           #site selection
         tgGetLogs('✅ Step 3.....Passed')
         #########################################  
@@ -96,7 +95,7 @@ def checkprocess():
                 sitename = "sitename"
                 ####GET TIME####
                 today = datetime.now()
-                dateToday = today.strftime("%m/%d/%Y %I:%M %p")
+                dateToday = today.strftime("%m/%d/%Y")
                 if(option == 1):
                     sitename = "Robinsons Las Pinas - Temporary Off-site Passport Service"
                 elif(option == 2):
@@ -135,4 +134,6 @@ def checkprocess():
     except AttributeError as e:
         tgGetLogs(f'❌ Error occured:  {e.name}\n\nuse /sudostart to restart the process.\n\n')
     finally:
-        closeWebdrv()
+        tgGetLogs(f'Closing session...')
+        driver.quit()
+        tgGetLogs(f'Session closed.')
