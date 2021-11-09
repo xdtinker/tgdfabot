@@ -64,6 +64,7 @@ def closeWebdrv():
 
 def checkprocess():
     tgGetLogs('Checking in progress..')
+    print('promt : bot running')
     webdrv()
     try:
         #driver.implicitly_wait(10)
