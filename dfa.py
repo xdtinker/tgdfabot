@@ -40,7 +40,7 @@ def tgGetLogs(botLogs):
 def webdrv():
     global driver
     site = "https://www.passport.gov.ph/appointment"
-    path = "./chromedriver.exe"
+    #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
 
     
@@ -52,8 +52,8 @@ def webdrv():
     chrome_options.add_argument('--headless')
     #chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument(f'user-agent={user_agent}')
-    #driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
-    driver = webdriver.Chrome(executable_path=path, options=chrome_options)
+    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+    #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
     driver.get(site)
     return chrome_options
 
