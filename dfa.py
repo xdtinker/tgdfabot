@@ -15,9 +15,12 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.common.exceptions import InvalidSessionIdException
+from selenium.common.exceptions import WebDriverException
 from requests.exceptions import Timeout
 from urllib3.exceptions import MaxRetryError
 from urllib3.exceptions import ProtocolError
+
+
 
 #send msg to tg
 def sendTelegram(botMsg):
@@ -39,7 +42,7 @@ def webdrv():
     site = "https://www.passport.gov.ph/appointment"
     #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
@@ -65,8 +68,10 @@ def checkprocess():
     tgGetLogs('Checking in progress..')
     webdrv()
     try:
-        driver.implicitly_wait(30)
-        driver.find_element(By.CLASS_NAME, "checkbox").click()
+        driver.implicitly_wait(10)
+        driver.find_element_by_xpath("//input[@type='checkbox']").click()
+        #driver.find_element(By.CLASS_NAME, "checkbox").click()
+        #WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CLASS_NAME, 'checkbox'))).click()
         #driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
@@ -125,7 +130,7 @@ def checkprocess():
                     sendTelegram(f' **New Appointment**\n \nSITE : {sitename}\n \n{dateToday}\n')  
                     print("Message sent.")
 
-    except (ElementNotInteractableException, NoSuchElementException, TimeoutException, ElementClickInterceptedException, InvalidSessionIdException, Timeout) as e:
+    except (ElementNotInteractableException, NoSuchElementException, TimeoutException, ElementClickInterceptedException, InvalidSessionIdException, Timeout, WebDriverException) as e:
         tgGetLogs(f'❌ Error occured:  {e.msg}\n\nuse /sudostart to restart the process.\n\n')
     except (MaxRetryError, ProtocolError) as e:
         print(f' Error occured: {e.args}\n\nuse /sudostart to restart the process.\n\n')
