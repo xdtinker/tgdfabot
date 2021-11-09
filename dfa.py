@@ -37,12 +37,12 @@ def tgGetLogs(botLogs):
 
     response = requests.get(bot_text)
 
-"""def webdrv():
+def webdrv():
     global driver
     site = "https://www.passport.gov.ph/appointment"
     #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
@@ -51,7 +51,7 @@ def tgGetLogs(botLogs):
     driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
     driver.get(site)
-    return driver"""
+    return driver
 
 
 def closeWebdrv():
@@ -63,20 +63,7 @@ def closeWebdrv():
         tgGetLogs(f"Service is not running.")
 
 def checkprocess():
-    tgGetLogs('Checking in progress..')
-    global driver
-    site = "https://www.passport.gov.ph/appointment"
-    #path = "./chromedriver.exe"
-    chrome_options = webdriver.ChromeOptions()
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument(f'user-agent={user_agent}')
-    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
-    #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
-    driver.get(site)
+    webdrv()
     try:
         #driver.implicitly_wait(10)
         #driver.find_element_by_xpath("//input[@type='checkbox']").click()
