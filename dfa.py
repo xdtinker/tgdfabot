@@ -63,6 +63,7 @@ def closeWebdrv():
         tgGetLogs(f"Service is not running.")
 
 def checkprocess():
+    tgGetLogs('Checking in progress..')
     webdrv()
     try:
         #driver.implicitly_wait(10)
