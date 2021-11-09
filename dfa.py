@@ -37,12 +37,12 @@ def tgGetLogs(botLogs):
 
     response = requests.get(bot_text)
 
-def webdrv():
+"""def webdrv():
     global driver
     site = "https://www.passport.gov.ph/appointment"
     #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
-    user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
@@ -51,7 +51,7 @@ def webdrv():
     driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
     driver.get(site)
-    return driver
+    return driver"""
 
 
 def closeWebdrv():
@@ -62,14 +62,24 @@ def closeWebdrv():
     except Exception as e:
         tgGetLogs(f"Service is not running.")
 
-
-
 def checkprocess():
     tgGetLogs('Checking in progress..')
-    webdrv()
+    global driver
+    site = "https://www.passport.gov.ph/appointment"
+    #path = "./chromedriver.exe"
+    chrome_options = webdriver.ChromeOptions()
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument(f'user-agent={user_agent}')
+    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+    #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
+    driver.get(site)
     try:
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//input[@type='checkbox']"))).click()
-        #driver.find_element_by_xpath("//input[@type='checkbox']").click()
+        driver.implicitly_wait(10)
+        driver.find_element_by_xpath("//input[@type='checkbox']").click()
         #driver.find_element(By.CLASS_NAME, "checkbox").click()
         #WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CLASS_NAME, 'checkbox'))).click()
         #driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
