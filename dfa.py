@@ -44,7 +44,7 @@ def webdrv():
     chrome_options = webdriver.ChromeOptions()
 
     
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     #chrome_options.add_argument('--headless')
     chrome_options.add_argument("--disable-dev-shm-usage")
@@ -73,10 +73,10 @@ def checkprocess():
     webdrv()
     try:
         time.sleep(2)
-        #driver.find_element_by_xpath("//input[@type='checkbox']").click()
+        driver.find_element_by_xpath("//input[@type='checkbox']").click()
         #driver.find_element(By.CLASS_NAME, "checkbox").click()
         #WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CLASS_NAME, 'checkbox'))).click()
-        driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
+        #driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
