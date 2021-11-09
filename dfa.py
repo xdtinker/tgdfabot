@@ -1,4 +1,3 @@
-#made by aziz
 import time
 import os
 import requests
