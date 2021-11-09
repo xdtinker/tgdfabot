@@ -19,7 +19,7 @@ def response(message):
 
 @bot.message_handler(chat_id=[keys.DEV_ID], commands=['sudostart'])
 def response(message):
-    bot.send_message(message.chat.id, 'Service Initializing')
+    bot.send_message(message.chat.id, 'Ok')
     main.checkprocess()
 
 @bot.message_handler(commands=['sudostart'])
