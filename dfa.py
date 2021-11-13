@@ -134,7 +134,7 @@ def checkprocess():
                     print("Message sent.")
 
     except (ElementNotInteractableException, NoSuchElementException, TimeoutException, ElementClickInterceptedException, InvalidSessionIdException, Timeout, ReadTimeout, WebDriverException) as e:
-        tgGetLogs(f'❌ Error occured:  {e.msg}\n\nuse /sudostart to restart the process.\n\n')
+        tgGetLogs(f'❌ Error occured:  {e.args}\n\nuse /sudostart to restart the process.\n\n')
         print(f'❌ Error occured:  {e.args}\n\nuse /sudostart to restart the process.\n\n')
     except (MaxRetryError, ProtocolError) as e:
         print(f' Error occured: {e.args}\n\nuse /sudostart to restart the process.\n\n')
