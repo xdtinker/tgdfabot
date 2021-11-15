@@ -75,14 +75,14 @@ def checkprocess():
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
         driver.implicitly_wait(5)  
-        driver.find_element(By.XPATH, "//select[@id='SiteID']")                                #site selection
+        driver.find_element(By.XPATH, "//select[@name='SiteID']")                                #site selection
         tgGetLogs('✅ Step 3.....Passed')
         #########################################  
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
         tgGetLogs('✅ Step 4.....Passed')
         #########################################
-        driver.implicitly_wait(5)
-        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '#pubpow-notif-checkbox'))).click()
+        driver.implicitly_wait(5)  
+        driver.find_element(By.XPATH, "//input[@name='pubpow-notif-checkbox']") 
         #driver.find_element_by_xpath('/html/body/div[1]/div/div/div[2]/div/form/div[3]/input').click()                           #agree tos
         tgGetLogs('✅ Step 5.....Passed')
         #########################################                                  
