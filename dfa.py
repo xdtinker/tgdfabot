@@ -39,8 +39,8 @@ def webdrv():
     global driver
     site = "https://www.passport.gov.ph/appointment"
     
-    chrome_options = webdriver.ChromeOptions()
-    """prefs = {"profile.managed_default_content_settings.images":2,
+    chrome_options = Options()
+    prefs = {"profile.managed_default_content_settings.images":2,
          "profile.default_content_setting_values.notifications":2,
          "profile.managed_default_content_settings.stylesheets":2,
          "profile.managed_default_content_settings.cookies":2,
@@ -48,18 +48,18 @@ def webdrv():
          "profile.managed_default_content_settings.plugins":1,
          "profile.managed_default_content_settings.popups":2,
          "profile.managed_default_content_settings.geolocation":2,
-         "profile.managed_default_content_settings.media_stream":2,}"""
+         "profile.managed_default_content_settings.media_stream":2,}
     
-    #chrome_options.add_experimental_option("prefs",prefs)
+    chrome_options.add_experimental_option("prefs",prefs)
     
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
+    #chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument(f'user-agent={user_agent}')
     
-    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     driver.get(site)
     return driver
 
