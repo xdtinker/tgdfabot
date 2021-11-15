@@ -66,9 +66,8 @@ def checkprocess():
     tgGetLogs('testing phase')
     webdrv()
     try:      
-        #driver.find_element(By.CLASS_NAME, "checkbox").click()
-        driver.implicitly_wait(5)
-        driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
+        time.sleep(5)
+        driver.find_element(By.XPATH, '//*[@id="agree"]').click()                                         #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
