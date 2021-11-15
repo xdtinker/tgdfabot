@@ -74,7 +74,7 @@ def checkprocess():
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
-        driver.find_element(By.ID, "SiteID")).click()                                                         #site selection
+        driver.find_element(By.XPATH, "//*[@id='SiteID']").click()                                   #site selection
         tgGetLogs('✅ Step 3.....Passed')
         #########################################  
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
