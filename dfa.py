@@ -41,12 +41,12 @@ def webdrv():
     path = "./chromedriver.exe"
     #chrome_options = webdriver.ChromeOptions()
     chrome_options = Options()
-    #user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument('--headless')
-    #chrome_options.add_argument(f'user-agent={user_agent}')
+    chrome_options.add_argument(f'user-agent={user_agent}')
     driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
     #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
     driver.get(site)
@@ -75,8 +75,8 @@ def checkprocess():
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
         driver.implicitly_wait(5)  
-        driver.find_element(By.XPATH, "//select[@name='SiteID']")                                #site selection
-        tgGetLogs('✅ Step 3.....Passed')
+        #driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                             #site selection
+        #tgGetLogs('✅ Step 3.....Passed')
         #########################################  
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
         tgGetLogs('✅ Step 4.....Passed')
