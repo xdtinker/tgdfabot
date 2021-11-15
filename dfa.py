@@ -74,8 +74,8 @@ def checkprocess():
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
-        driver.implicitly_wait(1)  
-        driver.find_element_by_xpath("//*[@id='SiteID']")                                                            #site selection
+        time.sleep(2)
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '#SiteID'))).click()                                                            #site selection
         tgGetLogs('✅ Step 3.....Passed')
         #########################################  
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
