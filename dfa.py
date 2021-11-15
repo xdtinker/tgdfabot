@@ -75,7 +75,7 @@ def checkprocess():
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
         time.sleep(2)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '#SiteID'))).click()                                                            #site selection
+        driver.find_element_by_xpath('/html/body/div[1]/div/div/div[2]/div/form/div[1]/div[1]/div[3]/div/div/select').click()                                                             #site selection
         tgGetLogs('✅ Step 3.....Passed')
         #########################################  
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
