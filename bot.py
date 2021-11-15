@@ -16,6 +16,10 @@ def response(message):
 @bot.message_handler(commands=['help'])
 def response(message):
     bot.send_message(message.chat.id, "There's no help")
+    
+@bot.message_handler(commands=['status'])
+def response(message):
+    bot.send_message(message.chat.id, "I'm Alive :)")
 
 @bot.message_handler(commands=['sudostart'])
 def response(message):
