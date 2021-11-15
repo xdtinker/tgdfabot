@@ -74,10 +74,10 @@ def checkprocess():
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
-        time.sleep(3) 
-        driver.find_element(By.XPATH, "//select[@id='SiteID']").click()                            #site selection
-        tgGetLogs('✅ Step 3.....Passed')
-        #########################################  
+        driver.implicitly_wait(5)  
+        #########################################
+        driver.find_element(By.ID, "SiteID").click()                                  #select site number 10
+        tgGetLogs('✅ Step 3.....Passed')  
         Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
         tgGetLogs('✅ Step 4.....Passed')
         #########################################
@@ -95,8 +95,13 @@ def checkprocess():
             for option in sites:
                 sitename = "sitename"
                 ####GET TIME####
+                time.sleep(3)
+                slot = driver.find_element(By.XPATH, "//div[@id='schedule-container']").text
+                Select(driver.find_element(By.ID, "SiteID")).select_by_index(option)
                 today = datetime.now()
                 dateToday = today.strftime("%m/%d/%Y %I:%M %p")
+
+
                 if(option == 1):
                     sitename = "Robinsons Las Pinas - Temporary Off-site Passport Service"
                 elif(option == 2):
@@ -113,10 +118,8 @@ def checkprocess():
                     sitename = "San Pedro Laguna - Temporary Off-site Passport Service"
                 else:
                     sitename = "SM Seaside Cebu - Temporary Off-site Passport Service"
-                time.sleep(3)
-                #slot = driver.find_element(By.ID, "schedule-container").text
-                slot = driver.find_element_by_css_selector('#schedule-container').text
-                Select(driver.find_element(By.ID, "SiteID")).select_by_index(option)
+
+
                 if("Timeslots will be available soon." in slot):
                     tgGetLogs(f"NO APPOINTMENT AVAILABLE\n  \n{sitename}\n \n{dateToday}\n")
                     print(f"\n*************************** NO APPOINTMENT AVAILABLE IN {sitename} ***************************\n")              
