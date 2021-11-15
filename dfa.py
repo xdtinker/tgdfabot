@@ -81,8 +81,7 @@ def checkprocess():
         tgGetLogs('✅ Step 4.....Passed')
         #########################################
         driver.implicitly_wait(5)  
-        driver.find_element(By.XPATH, "//input[@name='pubpow-notif-checkbox']") 
-        #driver.find_element_by_xpath('/html/body/div[1]/div/div/div[2]/div/form/div[3]/input').click()                           #agree tos
+        driver.find_element(By.XPATH, "//input[@name='pubpow-notif-checkbox']").click()                        #agree tos
         tgGetLogs('✅ Step 5.....Passed')
         #########################################                                  
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "submitcommand"))).click()     #sumbit
