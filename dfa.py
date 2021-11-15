@@ -67,8 +67,9 @@ def checkprocess():
     tgGetLogs('testing phase')
     webdrv()
     try:      
-        time.sleep(5)
-        driver.find_element(By.XPATH, '//*[@id="agree"]').click()                                         #checkbox
+        print('browsing in headless mode')
+        driver.find_element_by_class_name('checkbox')
+        #driver.find_element(By.XPATH, '//*[@id="agree"]').click()                                         #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
