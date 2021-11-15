@@ -68,8 +68,7 @@ def checkprocess():
     webdrv()
     try:      
         print('browsing in headless mode')
-        driver.find_element_by_class_name('checkbox')
-        #driver.find_element(By.XPATH, '//*[@id="agree"]').click()                                         #checkbox
+        driver.find_element_by_class_name('checkbox')                                       #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         ######################################### 
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
@@ -79,7 +78,7 @@ def checkprocess():
         driver.find_element(By.ID, "SiteID").click()                                                           #site selection
         tgGetLogs('✅ Step 3.....Passed')
         #########################################  
-        Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
+        Select(driver.find_element(By.XPATH, "//*[@id="SiteID"]")).select_by_index(10)                                        #select site number 10
         tgGetLogs('✅ Step 4.....Passed')
         #########################################
         driver.implicitly_wait(5)
