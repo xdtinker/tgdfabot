@@ -2,7 +2,6 @@
 import time
 import os
 import requests
-import pytz
 from selenium import webdriver
 from datetime import datetime
 from selenium.webdriver.common.by import By
