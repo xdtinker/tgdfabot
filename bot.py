@@ -2,9 +2,8 @@ import telebot
 import constant as keys
 from dfa import start_driver
 from dfa import kill_driver
-from dfa import tgGetLogs
 
-
+print('bot is running')
 bot = telebot.TeleBot(keys.API_KEY)
 
 @bot.message_handler(commands=['start'])

@@ -42,17 +42,19 @@ def tgGetLogs(botLogs):
 def web_driver():
     global driver
     site = "https://www.passport.gov.ph/appointment"
+    #path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")#heroku
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     chrome_options.add_argument(f'user-agent={user_agent}')
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("window-size=1920,1080")
     chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument('--no-sandbox')#heroku
+    chrome_options.add_argument('--disable-dev-shm-usage')#heroku
 
-    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+    #driver = webdriver.Chrome(path, chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)#heroku
     driver.get(site)
     return driver
 
@@ -79,10 +81,9 @@ def start_driver():
         tgGetLogs('✅ Step 3.....Passed') 
         select = Select(driver.find_element(By.ID, "SiteID"))
         select.select_by_index(10)                                       #select site number 10
-        #########################################
-        time.sleep(10)                               
+        #########################################                             
         tos = driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label')
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(10)
         tos.click()
         tgGetLogs('✅ Step 4.....Passed')
         #########################################                                  
@@ -100,7 +101,6 @@ def start_driver():
                 Select(driver.find_element(By.ID, "SiteID")).select_by_index(option)
                 today = datetime.now()
                 dateToday = today.strftime("%m/%d/%Y %I:%M %p")
-
 
                 if(option == 1):
                     sitename = "Robinsons Las Pinas - Temporary Off-site Passport Service"
