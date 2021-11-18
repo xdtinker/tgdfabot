@@ -69,9 +69,10 @@ def kill_driver():
 def start_driver():
     #initialize web driver
     web_driver()
+    tgGetLogs('testing phase')
     try:
-        driver.implicitly_wait(10)
-        driver.find_element_by_class_name('checkbox').click()                                          #checkbox
+        driver.implicitly_wait(5)
+        driver.find_element_by_xpath('//*[@id="agree"]').click()                                           #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         #########################################
         driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                #Start button
