@@ -1,9 +1,8 @@
 import telebot
 import constant as keys
-from dfa import start_driver
-from dfa import kill_driver
+import dfa as main
 
-print('bot is running')
+
 bot = telebot.TeleBot(keys.API_KEY)
 
 @bot.message_handler(commands=['start'])
@@ -18,18 +17,13 @@ def response(message):
 def response(message):
     bot.send_message(message.chat.id, "There's no help")
 
-@bot.message_handler(commands=['status'])
-def response(message):
-    bot.send_message(message.chat.id, "I'm alive :>")
-
 @bot.message_handler(commands=['sudostart'])
 def response(message):
     bot.send_message(message.chat.id, 'Service Initializing')
-    start_driver()
+    main.checkprocess()
 
 @bot.message_handler(commands=['sudostop'])
 def response(message):
-    bot.send_message(message.chat.id, 'okay lods')
-    kill_driver()
+    main.closeWebdrv()
 
 bot.polling()
