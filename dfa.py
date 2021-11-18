@@ -1,4 +1,3 @@
-
 import time
 import os
 import requests
@@ -16,11 +15,8 @@ from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.common.exceptions import InvalidSessionIdException
 from requests.exceptions import Timeout
-from urllib3.exceptions import MaxRetryError, TimeoutStateError
+from urllib3.exceptions import MaxRetryError
 from urllib3.exceptions import ProtocolError
-
-
-
 
 #send msg to tg
 def sendTelegram(botMsg):
@@ -39,58 +35,59 @@ def tgGetLogs(botLogs):
 
     response = requests.get(bot_text)
 
-def web_driver():
+def webdrv():
     global driver
     site = "https://www.passport.gov.ph/appointment"
-    #path = "./chromedriver.exe"
+    path = "./chromedriver.exe"
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")#heroku
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument(f'user-agent={user_agent}')
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("window-size=1920,1080")
-    chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument('--no-sandbox')#heroku
-    chrome_options.add_argument('--disable-dev-shm-usage')#heroku
-
-    #driver = webdriver.Chrome(path, chrome_options=chrome_options)
-    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)#heroku
+    driver = webdriver.Chrome(executable_path = os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+    #driver = webdriver.Chrome(executable_path=path, options=chrome_options)
     driver.get(site)
     return driver
 
-def kill_driver():
+
+def closeWebdrv():
     try:
-        driver.quit()    
-        tgGetLogs("Process ended.\n\nIf you wish to restart the service use /sudostart\n\n")
+        driver.quit()
+        
+        tgGetLogs("Service Terminated.\n\nIf you wish to restart the Service use /sudostart\n\n")
     except Exception as e:
-        tgGetLogs(f"No process running.")
+        tgGetLogs(f"Service is not running.")
 
 
-def start_driver():
-    #initialize web driver
-    web_driver()
+
+def checkprocess():
     tgGetLogs('testing phase')
-    try:
+    webdrv()
+    try:      
+        #driver.find_element(By.CLASS_NAME, "checkbox").click()
         driver.implicitly_wait(5)
-        driver.find_element_by_xpath('//*[@id="agree"]').click()                                           #checkbox
+        driver.find_element_by_xpath('//*[@id="agree"]').click()                                         #checkbox
         tgGetLogs('✅ Step 1.....Passed')
-        #########################################
-        driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                #Start button
+        ######################################### 
+        driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[2]/div[2]/a[1]').click()                 #Start button
         tgGetLogs('✅ Step 2.....Passed')
         #########################################
-        driver.implicitly_wait(5)  
-        #########################################)                              #select site number 10
-        tgGetLogs('✅ Step 3.....Passed') 
-        select = Select(driver.find_element(By.ID, "SiteID"))
-        select.select_by_index(10)                                       #select site number 10
-        #########################################                             
-        tos = driver.find_element_by_xpath('//*[@id="pubpow-notif"]/label')
-        driver.implicitly_wait(10)
-        tos.click()
+        driver.implicitly_wait(1)  
+        driver.find_element(By.ID, "SiteID").click()                                                           #site selection
+        tgGetLogs('✅ Step 3.....Passed')
+        #########################################  
+        Select(driver.find_element(By.ID, "SiteID")).select_by_index(10)                                        #select site number 10
         tgGetLogs('✅ Step 4.....Passed')
+        #########################################
+        driver.implicitly_wait(5)
+        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '#pubpow-notif-checkbox'))).click()
+        #driver.find_element_by_xpath('/html/body/div[1]/div/div/div[2]/div/form/div[3]/input').click()                           #agree tos
+        tgGetLogs('✅ Step 5.....Passed')
         #########################################                                  
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "submitcommand"))).click()     #sumbit
-        tgGetLogs('✅ Initialization complete. checking started. \n\n  @DFAPassport_bot')     
+        tgGetLogs('✅ Initialization complete. checking started. ')     
 
         loop = True
         sites = [1,2,3,4,5,7,8,9]
@@ -98,12 +95,8 @@ def start_driver():
             for option in sites:
                 sitename = "sitename"
                 ####GET TIME####
-                time.sleep(3)
-                date = driver.find_element(By.ID, "next-available-date").text
-                Select(driver.find_element(By.ID, "SiteID")).select_by_index(option)
                 today = datetime.now()
                 dateToday = today.strftime("%m/%d/%Y %I:%M %p")
-
                 if(option == 1):
                     sitename = "Robinsons Las Pinas - Temporary Off-site Passport Service"
                 elif(option == 2):
@@ -120,17 +113,18 @@ def start_driver():
                     sitename = "San Pedro Laguna - Temporary Off-site Passport Service"
                 else:
                     sitename = "SM Seaside Cebu - Temporary Off-site Passport Service"
-
-
-                if("No available date" in date):
-                    tgGetLogs(f"❌NO APPOINTMENT AVAILABLE\n  \n{sitename}\n \n{dateToday}\n")
+                time.sleep(3)
+                #slot = driver.find_element(By.ID, "schedule-container").text
+                slot = driver.find_element_by_css_selector('#schedule-container').text
+                Select(driver.find_element(By.ID, "SiteID")).select_by_index(option)
+                if("Timeslots will be available soon." in slot):
+                    tgGetLogs(f"NO APPOINTMENT AVAILABLE\n  \n{sitename}\n \n{dateToday}\n")
                     print(f"\n*************************** NO APPOINTMENT AVAILABLE IN {sitename} ***************************\n")              
                 else:
                     print(f"\n********************** APPOINTMENT AVAILABLE IN {sitename} ***********************************\n")
                     #sendMsg()
-                    sendTelegram(f'✅New Appointment\n \nSite: {sitename}\nEarliest available date: {date}\n\n{dateToday}\n')  
+                    sendTelegram(f' **New Appointment**\n \nSITE : {sitename}\n \n{dateToday}\n')  
                     print("Message sent.")
-                    
 
     except (ElementNotInteractableException, NoSuchElementException, TimeoutException, ElementClickInterceptedException, InvalidSessionIdException, Timeout) as e:
         tgGetLogs(f'❌ Error occured:  {e.msg}\n\nuse /sudostart to restart the process.\n\n')
@@ -141,6 +135,4 @@ def start_driver():
     except AttributeError as e:
         tgGetLogs(f'❌ Error occured:  {e.name}\n\nuse /sudostart to restart the process.\n\n')
     finally:
-        driver.quit()
-        print('driver closed.')
-        tgGetLogs('driver closed.')
+        closeWebdrv()
