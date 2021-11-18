@@ -70,6 +70,7 @@ def start_driver():
     #initialize web driver
     web_driver()
     try:
+        driver.implicitly_wait(10)
         driver.find_element_by_class_name('checkbox').click()                                          #checkbox
         tgGetLogs('✅ Step 1.....Passed')
         #########################################
